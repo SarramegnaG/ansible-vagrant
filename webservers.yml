@@ -1,0 +1,11 @@
+---
+# file: webservers.yml
+- name: Configure and deploy the webservers and application code
+  hosts: webservers
+  remote_user: root
+
+  roles:
+    - nginx
+    - php
+    - nodejs
+    - application

@@ -1,0 +1,40 @@
+---
+# roles/nodejs/tasks/main.yml
+- block:
+  - name: Add yarn gpg key
+    become: true
+    apt_key:
+      url: https://dl.yarnpkg.com/debian/pubkey.gpg
+      state: present
+
+  - name: "Ensure Ubuntu sources list file exists"
+    become: true
+    file:
+      path: /etc/apt/sources.list.d/yarn.list
+      owner: root
+      mode: 0644
+      state: touch
+
+  - name: Ensure yarn package is in sources list
+    become: true
+    lineinfile:
+      dest: /etc/apt/sources.list.d/yarn.list
+      regexp: 'deb http://dl.yarnpkg.com/debian/ stable main'
+      line: 'deb http://dl.yarnpkg.com/debian/ stable main'
+      state: present
+
+  - name: Update apt cache
+    become: true
+    apt:
+      update_cache: yes
+
+  - name: Install nodejs, npm & yarn
+    become: true
+    apt:
+      name: "{{ item }}"
+      state: latest
+    with_items:
+      - nodejs
+      - npm
+      - yarn
+  tags: nodejs

@@ -1,0 +1,10 @@
+---
+# file: site.yml
+- name: Apply common configuration to all nodes
+  hosts: all
+  remote_user: root
+  roles:
+    - common
+
+- import_playbook: webservers.yml
+- import_playbook: dbservers.yml

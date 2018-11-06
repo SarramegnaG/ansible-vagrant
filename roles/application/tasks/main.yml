@@ -9,13 +9,10 @@
     group: "{{ ansible_user }}"
     recurse: yes
 
-- name: Checkout Git repository
-  git:
-    repo: https://github.com/symfony/symfony-standard.git
-    dest: "{{ symfony_root_dir }}"
-    force: yes
-
-- name: Install Composer's dependencies
+- name: Install Symfony 3.4 with flex architecture
   composer:
-    working_dir: "{{ symfony_root_dir }}"
+    command: create-project
+    arguments: symfony/skeleton {{ symfony_root_dir }} 3.4.*
     no_dev: no
+    optimize_autoloader: no
+    working_dir: "{{ symfony_root_dir }}"

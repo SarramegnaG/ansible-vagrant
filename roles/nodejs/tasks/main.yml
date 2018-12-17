@@ -31,10 +31,8 @@
   - name: Install nodejs, npm & yarn
     become: true
     apt:
-      name: "{{ item }}"
+      name:
+        - nodejs
+        - npm
+        - yarn
       state: latest
-    with_items:
-      - nodejs
-      - npm
-      - yarn
-  tags: nodejs

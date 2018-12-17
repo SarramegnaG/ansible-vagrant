@@ -13,10 +13,9 @@
 - name: Install low-level utilities
   become: true
   apt:
-    name: "{{ item }}"
-  with_items:
-    - zip
-    - unzip
+    name:
+      - zip
+      - unzip
 
 - name: Install Git VCS
   become: true

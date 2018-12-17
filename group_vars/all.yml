@@ -3,3 +3,4 @@
 server_name: www.symfony.vbox
 symfony_root_dir: /var/www/html/{{ server_name }}
 symfony_web_dir: "{{ symfony_root_dir }}/public"
+mysql_root_password: "root"

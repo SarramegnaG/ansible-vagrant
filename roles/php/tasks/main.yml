@@ -3,12 +3,12 @@
 - name: Install PHP packages
   become: true
   apt:
-    name: "{{ item }}"
+    name:
+      - php-cli
+      - php-fpm
+      - php-xml
+      - php-mysql
     state: latest
-  with_items:
-    - php-cli
-    - php-fpm
-    - php-xml
 
 - name: Set date.timezone for CLI
   become: true

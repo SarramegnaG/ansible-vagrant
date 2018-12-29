@@ -5,6 +5,7 @@
   apt:
     name:
       - php-cli
+      - php-curl
       - php-fpm
       - php-xml
       - php-mysql

@@ -1,5 +1,20 @@
 ---
 # roles/application/tasks/main.yml
+- name: Install low-level utilities
+  become: true
+  apt:
+    name:
+      - libnss3-dev
+
+- name: Check if application is already installed
+  stat:
+    path: "{{ symfony_root_dir }}"
+  register: symfony_folder
+
+- debug:
+    msg: "Application is already installed, skipping next 2 steps"
+  when: symfony_folder.stat.exists
+
 - name: Create project directory and set its permissions
   become: true
   file:
@@ -8,11 +23,13 @@
     owner: "{{ ansible_user }}"
     group: "{{ ansible_user }}"
     recurse: yes
+  when: not symfony_folder.stat.exists
 
-- name: Install latest version of symfony/website/skeleton
+- name: Install latest version of symfony/website-skeleton
   composer:
     command: create-project
     arguments: symfony/website-skeleton {{ symfony_root_dir }}
     no_dev: no
     optimize_autoloader: no
     working_dir: "{{ symfony_root_dir }}"
+  when: not symfony_folder.stat.exists

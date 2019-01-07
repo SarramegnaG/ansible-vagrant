@@ -1,10 +1,38 @@
 ---
 # roles/application/tasks/main.yml
-- name: Install low-level utilities
+- name: Add google public key
+  become: true
+  apt_key:
+    url: https://dl-ssl.google.com/linux/linux_signing_key.pub
+    state: present
+
+- name: Ensure Ubuntu sources list file exists
+  become: true
+  file:
+    path: /etc/apt/sources.list.d/google.list
+    owner: root
+    mode: 0644
+    state: touch
+
+- name: Ensure google package is in sources list
+  become: true
+  lineinfile:
+    dest: /etc/apt/sources.list.d/google.list
+    regexp: 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main'
+    line: 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main'
+    state: present
+
+- name: Update apt cache
+  become: true
+  apt:
+    update_cache: yes
+
+- name: Install utilities for symfony/panther
   become: true
   apt:
     name:
       - libnss3-dev
+      - google-chrome-stable
 
 - name: Check if application is already installed
   stat:

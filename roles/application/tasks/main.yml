@@ -9,10 +9,10 @@
     group: "{{ ansible_user }}"
     recurse: yes
 
-- name: Install Symfony 3.4 with flex architecture
+- name: Install latest version of symfony/website/skeleton
   composer:
     command: create-project
-    arguments: symfony/website-skeleton {{ symfony_root_dir }} 3.4.*
+    arguments: symfony/website-skeleton {{ symfony_root_dir }}
     no_dev: no
     optimize_autoloader: no
     working_dir: "{{ symfony_root_dir }}"

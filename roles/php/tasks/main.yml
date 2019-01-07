@@ -10,6 +10,7 @@
       - php-xml
       - php-mysql
       - php-mbstring
+      - php-zip
     state: latest
 
 - name: Set date.timezone for CLI

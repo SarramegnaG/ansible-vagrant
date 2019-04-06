@@ -1,29 +1,35 @@
 ---
 # roles/php/tasks/main.yml
+
+- name: Add ppa:ondrej/php repository
+  become: true
+  apt_repository:
+    repo: ppa:ondrej/php
+
 - name: Install PHP packages
   become: true
   apt:
     name:
-      - php-cli
-      - php-curl
-      - php-fpm
-      - php-xml
-      - php-mysql
-      - php-mbstring
-      - php-zip
+      - php7.3-cli
+      - php7.3-curl
+      - php7.3-fpm
+      - php7.3-xml
+      - php7.3-mysql
+      - php7.3-mbstring
+      - php7.3-zip
     state: latest
 
 - name: Set date.timezone for CLI
   become: true
   lineinfile:
-    dest: /etc/php/7.2/cli/php.ini
+    dest: /etc/php/7.3/cli/php.ini
     regexp: "date.timezone ="
     line: "date.timezone = Europe/Paris"
 
 - name: Set date.timezone for FPM
   become: true
   lineinfile:
-    dest: /etc/php/7.2/fpm/php.ini
+    dest: /etc/php/7.3/fpm/php.ini
     regexp: "date.timezone ="
     line: "date.timezone = Europe/Paris"
   notify:

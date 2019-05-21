@@ -1,0 +1,11 @@
+[Unit]
+ Description=Maildev SMTP and web server
+
+[Service]
+ ExecStart=/usr/local/bin/maildev
+ User=root
+ Restart=on-failure
+ RestartSec=5
+
+[Install]
+ WantedBy=default.target

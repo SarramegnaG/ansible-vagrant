@@ -8,4 +8,5 @@
     - nginx
     - php
     - nodejs
+    - maildev
     - application

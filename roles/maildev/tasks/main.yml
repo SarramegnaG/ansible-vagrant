@@ -1,0 +1,25 @@
+---
+# roles/maildev/tasks/main.yml
+
+- name: Install MailDev
+  become: true
+  npm:
+    name: maildev
+    state: latest
+    global: yes
+
+- name: Copy service configuration
+  become: true
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+  with_items:
+    - { src: files/maildev.service, dest: /etc/systemd/system/maildev.service }
+
+- name: Register as starting on boot
+  become: true
+  systemd:
+    state: started
+    enabled: yes
+    name: maildev
+

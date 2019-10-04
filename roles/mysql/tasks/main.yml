@@ -1,5 +1,6 @@
 ---
 # roles/mysql/tasks/main.yml
+
 - name: Install MySQL DB server & Python MySQL
   become: true
   apt:

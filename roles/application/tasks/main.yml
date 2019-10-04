@@ -1,5 +1,6 @@
 ---
 # roles/application/tasks/main.yml
+
 - name: Add google public key
   become: true
   apt_key:

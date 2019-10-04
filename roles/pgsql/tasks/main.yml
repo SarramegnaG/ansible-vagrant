@@ -1,0 +1,45 @@
+---
+# roles/pgsql/tasks/main.yml
+
+- name: Add postgresql public key
+  become: true
+  apt_key:
+    url: https://www.postgresql.org/media/keys/ACCC4CF8.asc
+    state: present
+
+- name: Ensure postgresql sources list file exists
+  become: true
+  file:
+    path: /etc/apt/sources.list.d/pgdg.list
+    owner: root
+    mode: 0644
+    state: touch
+
+- name: Ensure postgresql package is in sources list
+  become: true
+  lineinfile:
+    dest: /etc/apt/sources.list.d/pgdg.list
+    regexp: 'deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main'
+    line: 'deb [arch=amd64] http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main'
+    state: present
+
+- name: Update apt cache
+  become: true
+  apt:
+    update_cache: yes
+
+- name: Install PostgreSQL DB server
+  become: true
+  apt:
+    name:
+      - postgresql-10
+      - python-psycopg2
+    state: latest
+
+- name: Add root user
+  become: true
+  become_user: postgres
+  postgresql_user:
+    name: root
+    password: root
+    role_attr_flags: CREATEDB,NOSUPERUSER

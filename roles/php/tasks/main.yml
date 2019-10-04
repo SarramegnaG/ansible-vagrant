@@ -1,6 +1,7 @@
 ---
 # roles/php/tasks/main.yml
 
+# Comment this task on Debian 10 or make it conditional
 - name: Add ppa:ondrej/php repository
   become: true
   apt_repository:
@@ -15,6 +16,7 @@
       - php7.3-fpm
       - php7.3-xml
       - php7.3-mysql
+#      - php7.3-pgsql
       - php7.3-mbstring
       - php7.3-zip
     state: latest

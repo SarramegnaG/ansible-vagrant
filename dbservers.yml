@@ -1,8 +1,10 @@
 ---
-# file: dbservers.yml
-- name: Deploy MySQL and configure the databases
+# dbservers.yml
+
+- name: Deploy DBMS and configure the databases
   hosts: dbservers
   remote_user: root
 
   roles:
     - mysql
+#    - pgsql

@@ -1,5 +1,6 @@
 ---
-# file: site.yml
+# site.yml
+
 - name: Apply common configuration to all nodes
   hosts: all
   remote_user: root

@@ -7,7 +7,8 @@ required_plugins.each do |plugin|
 end
 
 Vagrant.configure("2") do |config|
-    config.vm.box = "ubuntu/bionic64"
+    config.vm.box = "ubuntu/bionic64" # Ubuntu 18.04
+    #config.vm.box = "debian/buster64" # Debian 10
 
     config.vm.box_check_update = false
     config.vbguest.auto_update = false
@@ -56,11 +57,7 @@ Vagrant.configure("2") do |config|
     config.vm.provision "ansible_local" do |ansible|
         ansible.install_mode = "default"
         ansible.compatibility_mode = "2.0"
-#        ansible.verbose = "-vvv"
-
-#        ansible.inventory_path = "provisioning/hosts.yml"
         ansible.playbook = "site.yml"
-#        ansible.tags = "nodejs"
         ansible.groups = {
             "webservers" => ["default"],
             "dbservers" => ["default"]

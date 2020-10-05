@@ -7,8 +7,7 @@ required_plugins.each do |plugin|
 end
 
 Vagrant.configure("2") do |config|
-    config.vm.box = "ubuntu/bionic64" # Ubuntu 18.04
-    #config.vm.box = "debian/buster64" # Debian 10
+    config.vm.box = "ubuntu/focal64" # Ubuntu 20.04
 
     config.vm.box_check_update = false
     config.vbguest.auto_update = false
@@ -55,15 +54,15 @@ Vagrant.configure("2") do |config|
     end
 
     config.vm.provision "ansible_local" do |ansible|
-        ansible.install_mode = "default"
-        ansible.compatibility_mode = "2.0"
+        ansible.install_mode = "pip"
+        ansible.pip_install_cmd = "sudo apt install -y python3-pip && sudo ln -s /usr/bin/pip{3,}"
         ansible.playbook = "site.yml"
+        ansible.extra_vars = { 
+            ansible_python_interpreter: "/usr/bin/python3"
+        }
         ansible.groups = {
-            "webservers" => ["default"],
-            "dbservers" => ["default"]
+            webservers: ["default"],
+            dbservers: ["default"]
         }
     end
-
-#    config.vm.provision :shell, :path => "scripts/build.sh"
-#    config.vm.provision :shell, :inline => "service nginx reload", run: "always"
 end

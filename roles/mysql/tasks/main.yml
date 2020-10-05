@@ -1,19 +1,31 @@
 ---
 # roles/mysql/tasks/main.yml
 
-- name: Install MySQL DB server & Python MySQL
+- name: Install MySQL DB server
   become: true
   apt:
-    name:
-      - mysql-server
-      - python-mysqldb
+    name: mysql-server
     state: latest
+
+- name: Install PyMySQL
+  become: true
+  pip:
+    name: pymysql
+    state: latest
+
+- name: Change the authentication plugin of MySQL root user to mysql_native_password
+  become: true
+  shell: mysql -u root -e 'UPDATE mysql.user SET plugin="mysql_native_password" WHERE user="root" AND host="localhost"'
+
+- name: Flush privileges
+  become: true
+  shell: mysql -u root -e 'FLUSH PRIVILEGES'
 
 - name: Set the root password
   become: true
   mysql_user:
     login_user: root
-    login_password: "{{ mysql_root_password }}"
+    login_password: ""
     user: root
     password: "{{ mysql_root_password }}"
 
